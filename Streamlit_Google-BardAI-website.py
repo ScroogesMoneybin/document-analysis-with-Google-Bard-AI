@@ -1,7 +1,7 @@
 #must import sqlite3 to utilize Chroma in deployment on the streamlit hosting site. Comment out these first three lines when running locally
-# __import__('pysqlite3')
-# import sys
-# sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 import streamlit as st
 ###
