@@ -1,7 +1,7 @@
 #must import sqlite3 to utilize Chroma in deployment on the streamlit hosting site. Comment out these first three lines when running locally
-__import__('pysqlite3')
-import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+# __import__('pysqlite3')
+# import sys
+# sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 import streamlit as st
 ###
@@ -57,7 +57,7 @@ def q_and_a(vector_store, q, k=3):
     ###
     from langchain.llms import GooglePalm
     ###
-    llm = GooglePalm(temperature=0.3, max_output_tokens=500)
+    llm = GooglePalm(temperature=0.3, max_output_tokens=800)
     retriever = vector_store.as_retriever(search_type='similarity', search_kwargs={'k': k})
     #k is the number of similar chunks retrieved. higher k costs more in chatgpt but gives better answer
     chain=RetrievalQA.from_chain_type(llm=llm, chain_type='stuff', retriever=retriever)
@@ -90,7 +90,7 @@ if __name__ == "__main__":
         uploaded_file = st.file_uploader('Upload Your PDF, TXT, or DOCX File For Processing:', type=['pdf', 'docx', 'txt'])
         chunk_size = st.number_input('Chunk Size (between 100 and 2048):', min_value=100, max_value=2048, value=512)
         k = st.number_input('k-value (between 1 and 20): Higher k-value costs more but can give better results', min_value=1, max_value=20, value=3)
-        add_data = st.button('Add File and Parameter Data', on_click=clear_history)
+        add_data = st.button('Run File Analysis', on_click=clear_history)
 
         if uploaded_file and add_data:
             with st.spinner('Reading, processing, and embedding file...'):
